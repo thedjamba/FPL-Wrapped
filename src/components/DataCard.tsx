@@ -18,8 +18,8 @@ const DataCard: React.FC<CardProps> = ({ title, data, endpoint }) => {
   };
 
   return (
-    <div className="flex justify-center space-x-4 w-full sm:w-96 h-60 bg-white shadow rounded-xl mb-4 p-4">
-    <div className="bg-white shadow rounded mb-4 p-4">
+    <div className="flex justify-center">
+    <div className="bg-white shadow rounded-xl mb-4 p-4 w-full sm:w-96">
       <h3 className="text-xl mb-2">{title}</h3>
       <p className="text-gray-700 mb-4">{JSON.stringify(data)}</p>
       <button
@@ -30,7 +30,6 @@ const DataCard: React.FC<CardProps> = ({ title, data, endpoint }) => {
       </button>
     </div>
     </div>
-
   );
 };
 

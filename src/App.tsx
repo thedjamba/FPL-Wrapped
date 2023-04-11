@@ -1,13 +1,12 @@
 // src/App.tsx
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import InputForm from './components/InputForm';
 import DataCard from './components/DataCard';
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import SquigglyLines from "./components/SquigglyLines";
 import './styles/tailwind.css';
-
 
 const endpoints = [
   'team_name_and_total_points',
@@ -23,6 +22,7 @@ const App: React.FC = () => {
   const [teamId, setTeamId] = useState<number | null>(null);
   const [data, setData] = useState<{ [key: string]: any }>({});
   const [currentCard, setCurrentCard] = useState<number>(0);
+  const dataCardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (teamId === null) return;
@@ -40,8 +40,14 @@ const App: React.FC = () => {
     endpoints.forEach((endpoint) => fetchData(endpoint));
   }, [teamId]);
 
-    useEffect(() => {
+  useEffect(() => {
     setCurrentCard(0);
+  }, [teamId]);
+
+  useEffect(() => {
+    if (teamId && dataCardRef.current) {
+      dataCardRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [teamId]);
 
   const handleSubmit = (teamId: number) => {
@@ -61,14 +67,15 @@ const App: React.FC = () => {
   return (
     <>
       <Header />
-      <main className="flex flex-1 w-full flex-col items-center justify-center text-center pt-6 pb-6 px-4 sm:mt-16 mt-12">
+      <div className="flex flex-col min-h-screen w-full">
+      <main className="flex flex-1 w-full flex-col items-center justify-center text-center pt-2 pb-2 px-4 sm:mt-16 mt-6">
         <a href="https://twitter.com/djambov"
           target="_blank"
           rel="noreferrer"
           className="border rounded-2xl py-1 px-4 text-slate-500 text-sm mb-5 hover:scale-105 transition duration-300 ease-in-out">
           Follow <span className="font-semibold">FPL Wrapped</span> on Twitter
         </a>
-      <div className="flex justify-center mt-10">
+        <div className="flex flex-col items-center justify-center mt-10 w-full">
         <div>
         <h1 className="mx-auto max-w-2xl font-display text-5xl font-bold tracking-normal text-slate-900 sm:text-6xl">
           Ready for your Fantasy Premier League {" "}
@@ -78,24 +85,27 @@ const App: React.FC = () => {
           </span>{" "}
         </h1>
         <p className="mx-auto mt-12 max-w-xl text-lg text-slate-700 leading-7">
-        Submit your team id below and get reay for your 2022/2023 FPL Wrapped
         </p>
           <InputForm onSubmit={handleSubmit} />
           {teamId && (
             <>
-              <DataCard
-                key={currentEndpoint}
-                title={`Data for ${currentEndpoint}`}
-                data={data[currentEndpoint]}
-                endpoint={`${currentEndpoint}?team_id=${teamId}`}
-              />
-              <div className="flex justify-center space-x-4">
-              <button onClick={handlePrev} className="bg-black text-white px-4 py-2 rounded">
-                &lt; Prev
-              </button>
-              <button onClick={handleNext} className="bg-black text-white px-4 py-2 rounded">
-                Next &gt;
-              </button>
+              <div ref={dataCardRef}>
+                <DataCard
+                  key={currentEndpoint}
+                  title={`Data for ${currentEndpoint}`}
+                  data={data[currentEndpoint]}
+                  endpoint={`${currentEndpoint}?team_id=${teamId}`}
+                />
+                <div className="flex justify-center items-center space-x-4">
+                  {currentCard > 0 && (
+                    <button onClick={handlePrev} className="bg-black text-white px-4 py-2 rounded">
+                      &lt; Prev
+                    </button>
+                  )}
+                  <button onClick={handleNext} className="bg-black text-white px-4 py-2 rounded">
+                    Next &gt;
+                  </button>
+                </div>
               </div>
             </>
           )}
@@ -103,8 +113,10 @@ const App: React.FC = () => {
       </div>
     </main>
     <Footer />
+    </div>
   </>
   );
 };
 
 export default App;
+

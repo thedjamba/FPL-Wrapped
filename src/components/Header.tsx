@@ -1,10 +1,10 @@
 export default function Header({ photo }: { photo?: string | undefined }) {
   return (
-    <header className="flex justify-between items-center w-full mt-5 border-b-2 pb-7 sm:px-4 px-2">
+    <header className="flex justify-between items-center w-full mt-2 border-b-2 pb-2 sm:px-4 px-2">
       <a href="/" className="flex space-x-2">
         <img
           alt="header text"
-          src="/imageIcon.png"
+          src="/fpl.png"
           className="sm:w-12 sm:h-12 w-7 h-7"
           width={25}
           height={25}
@@ -23,7 +23,7 @@ export default function Header({ photo }: { photo?: string | undefined }) {
         />
       ) : (
         <a
-          href="https://vercel.com/templates/next.js/ai-photo-restorer"
+          href="https://twitter.com/home"
           target="_blank"
           rel="noreferrer"
         >
