@@ -85,6 +85,7 @@ const App: React.FC = () => {
           </span>{" "}
         </h1>
         <p className="mx-auto mt-12 max-w-xl text-lg text-slate-700 leading-7">
+          Submit your team id below and get ready for your 2022/2023 FPL Wrapped
         </p>
           <InputForm onSubmit={handleSubmit} />
           {teamId && (
