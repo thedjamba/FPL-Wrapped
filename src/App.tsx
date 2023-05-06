@@ -19,6 +19,7 @@ const endpoints = [
 ];
 
 const App: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [teamId, setTeamId] = useState<number | null>(null);
   const [data, setData] = useState<{ [key: string]: any }>({});
   const [currentCard, setCurrentCard] = useState<number>(0);
@@ -29,13 +30,17 @@ const App: React.FC = () => {
 
     const fetchData = async (endpoint: string) => {
       try {
+        setLoading(true);
         const res = await fetch(`http://127.0.0.1:5000/api/${endpoint}?team_id=${teamId}`);
         const endpointData = await res.json();
         setData((prevData) => ({ ...prevData, [endpoint]: endpointData }));
+        setLoading(false);
       } catch (err) {
         console.error(err);
+        setLoading(false);
       }
     };
+    
 
     endpoints.forEach((endpoint) => fetchData(endpoint));
   }, [teamId]);
@@ -64,6 +69,16 @@ const App: React.FC = () => {
 
   const currentEndpoint = endpoints[currentCard];
 
+  
+  const [generatedTitle, setGeneratedTitle] = useState<string>("");
+  const [generatedSubtitle, setGeneratedSubtitle] = useState<string>("");
+  const handleTitleAndSubtitle = (title: string, subtitle: string) => {
+    setGeneratedTitle(title);
+    setGeneratedSubtitle(subtitle);
+  };
+  
+
+
   return (
     <>
       <Header />
@@ -91,12 +106,12 @@ const App: React.FC = () => {
           {teamId && (
             <>
               <div ref={dataCardRef}>
-                <DataCard
-                  key={currentEndpoint}
-                  title={`Data for ${currentEndpoint}`}
-                  data={data[currentEndpoint]}
-                  endpoint={`${currentEndpoint}?team_id=${teamId}`}
-                />
+              <DataCard
+                    key={currentEndpoint}
+                    data={data[currentEndpoint] || {}}
+                    endpoint={currentEndpoint}
+                    onTitleAndSubtitle={handleTitleAndSubtitle}
+/>
                 <div className="flex justify-center items-center space-x-4">
                   {currentCard > 0 && (
                     <button onClick={handlePrev} className="bg-black text-white px-4 py-2 rounded">
