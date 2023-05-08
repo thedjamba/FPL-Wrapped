@@ -55,7 +55,7 @@ const getTitleAndSubtitle = (endpoint: string, data: any) => {
                 } else {
                   subtitle = `You kept ${sortedPlayers[0].player_name} for ${sortedPlayers[0].gameweeks} gameweeks. You also kept faith in `;
                   sortedPlayers.slice(1).forEach((player: any, index: number) => {
-                    subtitle += `${player.player_name}${index < sortedPlayers.length - 2 ? ', ' : ''} for the same period`;
+                    subtitle += `${player.player_name}${index < sortedPlayers.length - 2 ? ', ' : ''} for the same period`; // needs to be fixed, string is repeated when nb players >2
                   });
                 }
 
