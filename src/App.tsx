@@ -41,7 +41,6 @@ const App: React.FC = () => {
       }
     };
     
-
     endpoints.forEach((endpoint) => fetchData(endpoint));
   }, [teamId]);
 
@@ -69,7 +68,6 @@ const App: React.FC = () => {
 
   const currentEndpoint = endpoints[currentCard];
 
-  
   const [generatedTitle, setGeneratedTitle] = useState<string>("");
   const [generatedSubtitle, setGeneratedSubtitle] = useState<string>("");
   const handleTitleAndSubtitle = (title: string, subtitle: string) => {
@@ -77,20 +75,18 @@ const App: React.FC = () => {
     setGeneratedSubtitle(subtitle);
   };
   
-
-
   return (
     <>
       <Header />
-      <div className="flex flex-col min-h-screen w-full">
-      <main className="flex flex-1 w-full flex-col items-center justify-center text-center pt-2 pb-2 px-4 sm:mt-16 mt-6">
+      <div className="flex flex-col w-full">
+      <main className="flex w-full flex-col items-center justify-center text-center pt-2 pb-2 px-4 sm:mt-6 mt-6">
         <a href="https://twitter.com/djambov"
           target="_blank"
           rel="noreferrer"
-          className="border rounded-2xl py-1 px-4 text-slate-500 text-sm mb-5 hover:scale-105 transition duration-300 ease-in-out">
+          className="border rounded-2xl py-1 px-4 text-slate-500 text-sm mb-4 hover:scale-105 transition duration-300 ease-in-out">
           Follow <span className="font-semibold">FPL Wrapped</span> on Twitter
         </a>
-        <div className="flex flex-col items-center justify-center mt-10 w-full">
+        <div className="flex flex-col items-center justify-center mt-8 w-full">
         <div>
         <h1 className="mx-auto max-w-2xl font-display text-5xl font-bold tracking-normal text-slate-900 sm:text-6xl">
           Ready for your Fantasy Premier League {" "}
@@ -103,6 +99,7 @@ const App: React.FC = () => {
           Submit your team id below and get ready for your 2022/2023 FPL Wrapped
         </p>
           <InputForm onSubmit={handleSubmit} />
+          {!teamId && <div className="h-[4rem]"></div>}
           {teamId && (
             <>
               <div ref={dataCardRef}>
@@ -111,14 +108,15 @@ const App: React.FC = () => {
                     data={data[currentEndpoint] || {}}
                     endpoint={currentEndpoint}
                     onTitleAndSubtitle={handleTitleAndSubtitle}
+                    teamId={teamId || 0}
 />
                 <div className="flex justify-center items-center space-x-4">
                   {currentCard > 0 && (
-                    <button onClick={handlePrev} className="bg-black text-white px-4 py-2 rounded">
+                    <button onClick={handlePrev} className="bg-black text-white px-4 py-2 rounded mb-8">
                       &lt; Prev
                     </button>
                   )}
-                  <button onClick={handleNext} className="bg-black text-white px-4 py-2 rounded">
+                  <button onClick={handleNext} className="bg-black text-white px-4 py-2 rounded mb-8">
                     Next &gt;
                   </button>
                 </div>

@@ -28,7 +28,7 @@ export default function Header({ photo }: { photo?: string | undefined }) {
           rel="noreferrer"
         >
           <img
-            alt="Vercel Icon"
+            alt="IMG"
             src="/vercelLogo.png"
             className="sm:w-10 sm:h-[34px] w-8 h-[28px]"
             width={32}

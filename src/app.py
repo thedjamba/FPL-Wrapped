@@ -346,7 +346,7 @@ CORS(app)
 def most_captained():
     team_id = request.args.get('team_id', default=my_id, type=int)
     player_name = most_captained_player(team_id)
-    return jsonify({'player_name': player_name})
+    return jsonify(player_name)
 
 @app.route('/api/total_bench_points', methods=['GET'])
 def total_bench():
