@@ -87,12 +87,11 @@ const DataCard: React.FC<CardProps> = ({ data, endpoint, onTitleAndSubtitle, tea
   }, [generatedTitle, subtitle, onTitleAndSubtitle]);
 
   const shareToTwitter = () => {
-    const shareUrl = `${window.location.origin}/${endpoint}?teamId=${teamId}`;
+    const shareUrl = `${window.location.origin}?teamId=${teamId}&endpoint=${endpoint}`;
     const tweetText = encodeURIComponent(`${generatedTitle}\n\n${shareUrl}`);
     window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, '_blank');
   };
   
-
   return (
     <div className="flex justify-center mt-4">
     <div className="bg-white shadow rounded-xl mb-4 p-4 w-full sm:w-96">
