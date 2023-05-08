@@ -8,6 +8,17 @@ import Header from "./components/Header";
 import SquigglyLines from "./components/SquigglyLines";
 import './styles/tailwind.css';
 
+const getQueryParams = () => {
+  const queryParams = new URLSearchParams(window.location.search);
+  const teamId = queryParams.get('teamId');
+  const endpoint = queryParams.get('endpoint');
+
+  return {
+    teamId: teamId ? parseInt(teamId) : null,
+    endpoint: endpoint || null,
+  };
+};
+
 const endpoints = [
   'team_name_and_total_points',
   'most_captained',
@@ -19,11 +30,25 @@ const endpoints = [
 ];
 
 const App: React.FC = () => {
+
+  const queryParams = getQueryParams();
+
+  useEffect(() => {
+    if (queryParams.teamId) {
+      setTeamId(queryParams.teamId);
+    }
+    if (queryParams.endpoint) {
+      setCurrentCard(endpoints.indexOf(queryParams.endpoint));
+    }
+  }, [queryParams]);
+
   const [loading, setLoading] = useState<boolean>(false);
   const [teamId, setTeamId] = useState<number | null>(null);
   const [data, setData] = useState<{ [key: string]: any }>({});
   const [currentCard, setCurrentCard] = useState<number>(0);
   const dataCardRef = useRef<HTMLDivElement>(null);
+  const currentEndpoint = endpoints[currentCard];
+
 
   useEffect(() => {
     if (teamId === null) return;
@@ -40,8 +65,11 @@ const App: React.FC = () => {
         setLoading(false);
       }
     };
-    
-    endpoints.forEach((endpoint) => fetchData(endpoint));
+
+    // Fetch data for all endpoints
+    endpoints.forEach((endpoint) => {
+      fetchData(endpoint);
+    });
   }, [teamId]);
 
   useEffect(() => {
@@ -56,6 +84,7 @@ const App: React.FC = () => {
 
   const handleSubmit = (teamId: number) => {
     setTeamId(teamId);
+    window.history.pushState({}, '', '/');
   };
 
   const handleNext = () => {
@@ -65,8 +94,6 @@ const App: React.FC = () => {
   const handlePrev = () => {
     setCurrentCard((prev) => (prev - 1 + endpoints.length) % endpoints.length);
   };
-
-  const currentEndpoint = endpoints[currentCard];
 
   const [generatedTitle, setGeneratedTitle] = useState<string>("");
   const [generatedSubtitle, setGeneratedSubtitle] = useState<string>("");

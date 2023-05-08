@@ -81,13 +81,13 @@ const getTitleAndSubtitle = (endpoint: string, data: any) => {
 
 const DataCard: React.FC<CardProps> = ({ data, endpoint, onTitleAndSubtitle, teamId }) => {
   const { title: generatedTitle, subtitle } = getTitleAndSubtitle(endpoint, data);
+
   useEffect(() => {
     onTitleAndSubtitle(generatedTitle, subtitle);
   }, [generatedTitle, subtitle, onTitleAndSubtitle]);
 
   const shareToTwitter = () => {
-    const baseUrl = window.location.origin;
-    const shareUrl = `${baseUrl}/${endpoint}?teamId=${teamId}`;
+    const shareUrl = `${window.location.origin}/${endpoint}?teamId=${teamId}`;
     const tweetText = encodeURIComponent(`${generatedTitle}\n\n${shareUrl}`);
     window.open(`https://twitter.com/intent/tweet?text=${tweetText}`, '_blank');
   };
