@@ -135,8 +135,7 @@ const App: React.FC = () => {
                     data={data[currentEndpoint] || {}}
                     endpoint={currentEndpoint}
                     onTitleAndSubtitle={handleTitleAndSubtitle}
-                    teamId={teamId || 0}
-/>
+                    teamId={teamId || 0}/>
                 <div className="flex justify-center items-center space-x-4">
                   {currentCard > 0 && (
                     <button onClick={handlePrev} className="bg-black text-white px-4 py-2 rounded mb-8">
