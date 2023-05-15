@@ -6,6 +6,7 @@ import DataCard from './components/DataCard';
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import SquigglyLines from "./components/SquigglyLines";
+import LoadingDots from './components/LoadingDots';
 import './styles/tailwind.css';
 
 const getQueryParams = () => {
@@ -129,24 +130,31 @@ const App: React.FC = () => {
           {!teamId && <div className="h-[4rem]"></div>}
           {teamId && (
             <>
-              <div ref={dataCardRef}>
+          <div ref={dataCardRef}>
+            {loading ? (
+              <LoadingDots color="#000" style="small" />
+            ) : (
               <DataCard
-                    key={currentEndpoint}
-                    data={data[currentEndpoint] || {}}
-                    endpoint={currentEndpoint}
-                    onTitleAndSubtitle={handleTitleAndSubtitle}
-                    teamId={teamId || 0}/>
-                <div className="flex justify-center items-center space-x-4">
-                  {currentCard > 0 && (
-                    <button onClick={handlePrev} className="bg-black text-white px-4 py-2 rounded mb-8">
-                      &lt; Prev
-                    </button>
-                  )}
-                  <button onClick={handleNext} className="bg-black text-white px-4 py-2 rounded mb-8">
-                    Next &gt;
-                  </button>
-                </div>
-              </div>
+                key={currentEndpoint}
+                data={data[currentEndpoint] || {}}
+                endpoint={currentEndpoint}
+                onTitleAndSubtitle={handleTitleAndSubtitle}
+                teamId={teamId || 0}
+              />
+            )}
+            <div className="flex justify-center items-center space-x-4">
+              {currentCard > 0 && (
+                <button onClick={handlePrev} className="bg-black text-white px-4 py-2 rounded mb-8"
+                    aria-label="Show previous insight">
+                  &lt; Prev
+                </button>
+              )}
+              <button onClick={handleNext} className="bg-black text-white px-4 py-2 rounded mb-8"
+              aria-label="Show next insight">
+                Next &gt;
+              </button>
+            </div>
+          </div>
             </>
           )}
         </div>
