@@ -49,6 +49,7 @@ const App: React.FC = () => {
   const [currentCard, setCurrentCard] = useState<number>(0);
   const dataCardRef = useRef<HTMLDivElement>(null);
   const currentEndpoint = endpoints[currentCard];
+  const abortControllerRef = useRef<AbortController | null>(null);
 
 
   useEffect(() => {
