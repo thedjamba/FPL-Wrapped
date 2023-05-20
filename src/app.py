@@ -244,6 +244,9 @@ def get_most_common_players(team_id):
 
 
 
+import urllib.request
+import json
+
 def get_hypothetical_points_with_best_captain(team_id):
     api_url_base = "https://fantasy.premierleague.com/api/entry/"
     team_url = api_url_base + str(team_id) + "/history/"
@@ -254,7 +257,9 @@ def get_hypothetical_points_with_best_captain(team_id):
     players_url = "https://fantasy.premierleague.com/api/bootstrap-static/"
     json_object = urllib.request.urlopen(players_url)
     players_data = json.load(json_object)
-    player_id_to_name = {player["id"]: player["web_name"] for player in players_data["elements"]}
+
+    # Create a cache for player data
+    player_data_cache = {}
 
     total_points_difference = 0
 
@@ -270,9 +275,14 @@ def get_hypothetical_points_with_best_captain(team_id):
 
         for pick in picks_data["picks"]:
             player_id = pick["element"]
-            player_url = "https://fantasy.premierleague.com/api/element-summary/{}/".format(player_id)
-            json_object = urllib.request.urlopen(player_url)
-            player_data = json.load(json_object)
+
+            # Check if player data is already in cache
+            if player_id not in player_data_cache:
+                player_url = "https://fantasy.premierleague.com/api/element-summary/{}/".format(player_id)
+                json_object = urllib.request.urlopen(player_url)
+                player_data_cache[player_id] = json.load(json_object)
+
+            player_data = player_data_cache[player_id]
 
             for performance in player_data["history"]:
                 if performance["round"] == i:
@@ -284,21 +294,20 @@ def get_hypothetical_points_with_best_captain(team_id):
 
         if captain_id != best_player_id:
             captain_points = 0
-            best_player_points = 0
 
-            captain_url = "https://fantasy.premierleague.com/api/element-summary/{}/".format(captain_id)
-            json_object = urllib.request.urlopen(captain_url)
-            captain_data = json.load(json_object)
+            # Use cached player data
+            captain_data = player_data_cache[captain_id]
 
             for performance in captain_data["history"]:
                 if performance["round"] == i:
                     captain_points = performance["total_points"]
                     break
 
-            points_difference = (max_points - captain_points) 
+            points_difference = (max_points - captain_points)
             total_points_difference += points_difference
 
     return total_points_difference
+
 
 def get_originality_scores(team_id):
     api_url_base = "https://fantasy.premierleague.com/api/entry/"

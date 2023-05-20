@@ -48,21 +48,23 @@ const getTitleAndSubtitle = (endpoint: string, data: any) => {
               case 'most_common_players':
                 const sortedPlayers = data.most_common_players.sort((a: any, b: any) => b.total_points - a.total_points);
                 let subtitle = '';
-          
+              
                 if (sortedPlayers.length === 1) {
                   subtitle = `You kept ${sortedPlayers[0].player_name} for ${sortedPlayers[0].gameweeks} gameweeks. 
                   He brought you a total of ${sortedPlayers[0].total_points}.`;
                 } else {
                   subtitle = `You kept ${sortedPlayers[0].player_name} for ${sortedPlayers[0].gameweeks} gameweeks. You also kept faith in `;
-                  sortedPlayers.slice(1).forEach((player: any, index: number) => {
-                    subtitle += `${player.player_name}${index < sortedPlayers.length - 2 ? ', ' : ''} for the same period`; // needs to be fixed, string is repeated when nb players >2
+                  sortedPlayers.slice(1).forEach((player: any, index: number, arr: any[]) => {
+                    subtitle += `${player.player_name}${index < arr.length - 1 ? ', ' : ''}`;
                   });
+                  subtitle += ' for the same period';
                 }
-
+              
                 return {
                   title: 'Season Heroes',
                   subtitle,
                 };
+              
 
                 case 'hypothetical_points':
                   return {
