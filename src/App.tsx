@@ -90,7 +90,9 @@ const App: React.FC = () => {
   };
 
   const handleNext = () => {
-    setCurrentCard((prev) => (prev + 1) % endpoints.length);
+    if (currentCard < endpoints.length - 1) {
+      setCurrentCard((prev) => prev + 1);
+    }
   };
 
   const handlePrev = () => {
@@ -143,17 +145,21 @@ const App: React.FC = () => {
                 teamId={teamId || 0}
               />
             )}
-            <div className="flex justify-center items-center space-x-4">
-              {currentCard > 0 && (
-                <button onClick={handlePrev} className="bg-black text-white px-4 py-2 rounded mb-8"
-                    aria-label="Show previous insight">
-                  &lt; Prev
-                </button>
-              )}
-              <button onClick={handleNext} className="bg-black text-white px-4 py-2 rounded mb-8"
-              aria-label="Show next insight">
+          <div className="flex justify-center items-center space-x-4">
+            {currentCard > 0 && (
+              <button onClick={handlePrev} className="bg-black text-white px-4 py-2 rounded mb-8" aria-label="Show previous insight">
+                &lt; Prev
+              </button>
+            )}
+            {currentCard < endpoints.length - 1 && (
+              <button
+                onClick={handleNext}
+                className="bg-black text-white px-4 py-2 rounded mb-8"
+                aria-label="Show next insight"
+              >
                 Next &gt;
               </button>
+            )}
             </div>
           </div>
             </>
