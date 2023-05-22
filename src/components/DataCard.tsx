@@ -51,13 +51,13 @@ const getTitleAndSubtitle = (endpoint: string, data: any) => {
               
                 if (sortedPlayers.length === 1) {
                   subtitle = `You kept ${sortedPlayers[0].player_name} for ${sortedPlayers[0].gameweeks} gameweeks. 
-                  He brought you a total of ${sortedPlayers[0].total_points}.`;
+                  He brought you a total of ${sortedPlayers[0].total_points} points.`;
                 } else {
                   subtitle = `You kept ${sortedPlayers[0].player_name} for ${sortedPlayers[0].gameweeks} gameweeks. You also kept faith in `;
                   sortedPlayers.slice(1).forEach((player: any, index: number, arr: any[]) => {
                     subtitle += `${player.player_name}${index < arr.length - 1 ? ', ' : ''}`;
                   });
-                  subtitle += ' for the same period';
+                  subtitle += ' for the same period.';
                 }
               
                 return {
@@ -70,7 +70,7 @@ const getTitleAndSubtitle = (endpoint: string, data: any) => {
                   return {
                     title: `What if...`,
                     subtitle: `If you always got the right captain, you would've finished with 
-                    ${data.hypothetical_points_difference} additional points`,
+                    ${data.hypothetical_points_difference} additional points.`,
                   };                
 
                   default:
