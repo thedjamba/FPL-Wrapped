@@ -108,8 +108,9 @@ const App: React.FC = () => {
   
   return (
     <>
-      <Header />
-      <div className="flex flex-col w-full">
+  <div className="flex flex-col min-h-screen">
+    <Header />
+    <main className="flex-grow">
       <main className="flex w-full flex-col items-center justify-center text-center pt-2 pb-2 px-4 sm:mt-6 mt-6">
         <a href="https://twitter.com/djambov"
           target="_blank"
@@ -119,7 +120,7 @@ const App: React.FC = () => {
         </a>
         <div className="flex flex-col items-center justify-center mt-8 w-full">
         <div>
-        <h1 className="mx-auto max-w-2xl font-display text-5xl font-bold tracking-normal text-slate-900 sm:text-6xl">
+        <h1 className="mx-auto max-w-2xl font-display text-4xl font-bold tracking-normal text-slate-900 sm:text-6xl">
           Ready for your Fantasy Premier League {" "}
           <span className="relative whitespace-nowrap text-[#3290EE]">
             <SquigglyLines />
@@ -166,6 +167,7 @@ const App: React.FC = () => {
           )}
         </div>
       </div>
+    </main>
     </main>
     <Footer />
     </div>
