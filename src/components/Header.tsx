@@ -9,7 +9,7 @@ export default function Header({ photo }: { photo?: string | undefined }) {
           width={25}
           height={25}
         />
-        <h1 className="sm:text-4xl text-lg font-bold ml-2 tracking-tight">
+        <h1 className="sm:text-3xl text-lg font-bold ml-2 tracking-tight">
           FPL Wrapped
         </h1>
       </a>
@@ -23,7 +23,7 @@ export default function Header({ photo }: { photo?: string | undefined }) {
         />
       ) : (
         <a
-          href="https://twitter.com/djambov"
+          href="https://twitter.com/fplwrapped"
           className="group"
           aria-label="TaxPal on Twitter"
         >

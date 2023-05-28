@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface InputFormProps {
   onSubmit: (teamId: number) => void;
@@ -7,10 +7,19 @@ interface InputFormProps {
 const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
   const [teamId, setTeamId] = useState('');
 
+  useEffect(() => {
+    // Get the teamId from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const teamIdFromUrl = urlParams.get('teamId');
+    if (teamIdFromUrl) {
+      setTeamId(teamIdFromUrl);
+    }
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (/^\d+$/.test(teamId)) {
-      onSubmit(parseInt(teamId));
+      onSubmit(parseInt(teamId, 10));
     }
   };
 
@@ -36,5 +45,6 @@ const InputForm: React.FC<InputFormProps> = ({ onSubmit }) => {
 };
 
 export default InputForm;
+
 
 

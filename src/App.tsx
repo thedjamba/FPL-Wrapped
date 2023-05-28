@@ -47,7 +47,7 @@ const App: React.FC = () => {
   const [teamId, setTeamId] = useState<number | null>(null);
   const [data, setData] = useState<{ [key: string]: any }>({});
   const [currentCard, setCurrentCard] = useState<number>(0);
-  const dataCardRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
   const currentEndpoint = endpoints[currentCard];
   const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -79,8 +79,8 @@ const App: React.FC = () => {
   }, [teamId]);
 
   useEffect(() => {
-    if (teamId && dataCardRef.current) {
-      dataCardRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (teamId && bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [teamId]);
 
@@ -107,71 +107,69 @@ const App: React.FC = () => {
   };
   
   return (
-    <>
-  <div className="flex flex-col min-h-screen">
-    <Header />
-    <main className="flex-grow">
-      <main className="flex w-full flex-col items-center justify-center text-center pt-2 pb-2 px-4 sm:mt-6 mt-6">
-        <a href="https://twitter.com/djambov"
-          target="_blank"
-          rel="noreferrer"
-          className="border rounded-2xl py-1 px-4 text-slate-500 text-sm mb-4 hover:scale-105 transition duration-300 ease-in-out">
-          Follow <span className="font-semibold">FPL Wrapped</span> on Twitter
-        </a>
-        <div className="flex flex-col items-center justify-center mt-8 w-full">
-        <div>
-        <h1 className="mx-auto max-w-2xl font-display text-4xl font-bold tracking-normal text-slate-900 sm:text-6xl">
-          Ready for your Fantasy Premier League {" "}
-          <span className="relative whitespace-nowrap text-[#3290EE]">
-            <SquigglyLines />
-            <span className="relative">Wrapped?</span>
-          </span>{" "}
-        </h1>
-        <p className="mx-auto mt-12 max-w-xl text-lg text-slate-700 leading-7">
-          Submit your team id below and get ready for your 2022/2023 FPL Wrapped
-        </p>
-          <InputForm onSubmit={handleSubmit} />
-          {!teamId && <div className="h-[4rem]"></div>}
-          {teamId && (
-            <>
-          <div ref={dataCardRef}>
-            {loading ? (
-              <LoadingDots color="#000" style="small" />
-            ) : (
-              <DataCard
-                key={currentEndpoint}
-                data={data[currentEndpoint] || {}}
-                endpoint={currentEndpoint}
-                onTitleAndSubtitle={handleTitleAndSubtitle}
-                teamId={teamId || 0}
-              />
-            )}
-          <div className="flex justify-center items-center space-x-4">
-            {currentCard > 0 && (
-              <button onClick={handlePrev} className="bg-black text-white px-4 py-2 rounded mb-8" aria-label="Show previous insight">
-                &lt; Prev
-              </button>
-            )}
-            {currentCard < endpoints.length - 1 && (
-              <button
-                onClick={handleNext}
-                className="bg-black text-white px-4 py-2 rounded mb-8"
-                aria-label="Show next insight"
-              >
-                Next &gt;
-              </button>
-            )}
-            </div>
+    <div className="flex flex-col min-h-screen overflow-x-hidden">
+      <Header />
+      <main className="flex-grow flex flex-col justify-around items-center text-center px-4 sm:mt-6 mt-6 w-full overflow-y-auto">
+          <a href="https://twitter.com/fplwrapped"
+            target="_blank"
+            rel="noreferrer"
+            className="border rounded-2xl py-1 px-4 text-slate-500 text-sm mt-8 mb-4 hover:scale-105 transition duration-300 ease-in-out self-center">
+            Follow <span className="font-semibold">FPL Wrapped</span> on Twitter
+          </a>
+          <div className="flex flex-col items-center justify-center mt-8 w-full">
+            <h1 className="mx-auto max-w-2xl font-display text-4xl font-bold tracking-normal text-slate-900 sm:text-6xl">
+              Ready for your Fantasy Premier League {" "}
+              <span className="relative whitespace-nowrap text-[#3290EE]">
+                <SquigglyLines />
+                <span className="relative">Wrapped?</span>
+              </span>{" "}
+            </h1>
+            <p className="mx-auto mt-12 max-w-xl text-lg text-slate-700 leading-7">
+              Submit your team id below and get ready for your 2022/2023 FPL Wrapped
+            </p>
           </div>
-            </>
-          )}
+          <div className="flex flex-col items-center justify-center mb-16 w-full">
+              <InputForm onSubmit={handleSubmit} />
+              {!teamId && <div className="h-[4rem]"></div>}
+              {teamId && (
+                <div ref={bottomRef}>
+                  {!data[currentEndpoint] ? (
+                    <LoadingDots color="#000" style="small" />
+                  ) : (
+                    <DataCard
+                      key={currentEndpoint}
+                      data={data[currentEndpoint] || {}}
+                      endpoint={currentEndpoint}
+                      onTitleAndSubtitle={handleTitleAndSubtitle}
+                      teamId={teamId || 0}
+                    />
+                  )}
+
+                  <div className="flex justify-center items-center space-x-4">
+                    {currentCard > 0 && (
+                      <button onClick={handlePrev} className="bg-black text-white px-4 py-2 rounded mb-8" aria-label="Show previous insight">
+                        &lt; Prev
+                      </button>
+                    )}
+                    {currentCard < endpoints.length - 1 && (
+                      <button
+                        onClick={handleNext}
+                        className="bg-black text-white px-4 py-2 rounded mb-8"
+                        aria-label="Show next insight"
+                      >
+                        Next &gt;
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+          </div>
+        <div 
+        ref={bottomRef}>
         </div>
-      </div>
-    </main>
-    </main>
-    <Footer />
+      </main>
+      <Footer />
     </div>
-  </>
   );
 };
 

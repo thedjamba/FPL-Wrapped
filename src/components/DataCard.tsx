@@ -96,7 +96,7 @@ const DataCard: React.FC<CardProps> = ({ data, endpoint, onTitleAndSubtitle, tea
   
   return (
     <div className="flex justify-center mt-4">
-    <div className="bg-white shadow rounded-xl mb-4 p-4 w-full sm:w-96">
+    <div className="bg-white shadow rounded-xl mb-4 p-4 w-full sm:w-full max-w-2xl">
       <h3 className="text-xl mb-2">{generatedTitle}</h3>
       <p className="text-gray-700 mb-4">{subtitle}</p>
       <button
