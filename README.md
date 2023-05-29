@@ -1,6 +1,6 @@
 # FPL Wrapped
 
-FPL Wrapped is a web application for the Fantasy Premier League, inspired by Spotify's Wrapped feature. It is built with Flask, on the backend, and React on the frontend. Landing page design copied from restorephotos.io
+FPL Wrapped is a web application for the Fantasy Premier League, inspired by Spotify's Wrapped feature. It is built with Flask on the backend, and React on the frontend. Landing page design copied from restorephotos.io
 
 ## Features
 
