@@ -41,7 +41,7 @@ const getTitleAndSubtitle = (endpoint: string, data: any) => {
               return {
                 title: `Talk about form`,
                 subtitle: `Between GW${data.increasing_streak.first_gameweek} and GW${data.increasing_streak.last_gameweek}
-                you went from ${data.increasing_streak.first_overall_rank} to ${data.increasing_streak.first_overall_rank} in the world. 
+                you went from ${data.increasing_streak.first_overall_rank} to ${data.increasing_streak.last_overall_rank} in the world. 
                 What a streak!`,
               };
 

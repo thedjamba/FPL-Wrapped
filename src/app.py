@@ -427,6 +427,4 @@ if __name__ == '__main__':
 # http://127.0.0.1:5000/api/increasing_and_decreasing_rank_streaks?team_id=2103023
 # http://127.0.0.1:5000/api/most_common_players?team_id=2103023
 
-
-
 #     api_url_base = "https://fantasy.premierleague.com/api/entry/"
